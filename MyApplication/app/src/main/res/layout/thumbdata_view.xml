@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imgThumb"
+        android:padding="10dp"
+        android:layout_weight="0"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/thumb1" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Scene"
+            android:id="@+id/txtTitle"
+            android:textSize="26dp"
+            android:textColor="#ff0a1923" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pgBar"
+            android:max="100"
+            android:progress="60"
+            android:paddingTop="10dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/imgDone"
+        android:padding="10dp"
+        android:layout_weight="0"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/img_done"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp" />
+
+</LinearLayout>
