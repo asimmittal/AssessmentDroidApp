@@ -32,19 +32,73 @@
             android:textSize="26dp"
             android:textColor="#ff0a1923" />
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/pgBar"
-            android:max="100"
-            android:progress="60"
-            android:paddingTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:id="@+id/progContainer">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_margin="5dp"
+                android:background="#ffb5b5b5"
+                android:id="@+id/bar0"
+                android:layout_weight="1"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_margin="5dp"
+                android:background="#ffb5b5b5"
+                android:id="@+id/bar1"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_margin="5dp"
+                android:background="#ffb5b5b5"
+                android:id="@+id/bar2"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_margin="5dp"
+                android:background="#ffb5b5b5"
+                android:id="@+id/bar3"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_margin="5dp"
+                android:background="#ffb5b5b5"
+                android:id="@+id/bar4"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_margin="5dp"
+                android:background="#ffb5b5b5"
+                android:id="@+id/bar5"
+                android:layout_weight="1" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/imgDone"
         android:padding="10dp"
         android:layout_weight="0"

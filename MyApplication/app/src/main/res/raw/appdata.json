@@ -2,6 +2,7 @@
    "1":[
       {
          "scene":1,
+         "scene_name":"Cutting in line",
          "area":"AU",
          "q_id":3,
          "question":"Did Olivia feel disappointed when Luke cut in line?",
@@ -16,6 +17,7 @@
       },
       {
          "scene":1,
+         "scene_name":"Cutting in line",
          "area":"AU",
          "q_id":5,
          "question":"How did Olivia feel after Luke cut in line?",
@@ -30,6 +32,7 @@
       },
       {
          "scene":1,
+         "scene_name":"Cutting in line",
          "area":"SP",
          "q_id":2,
          "question":"Was Luke being a good sport?",
@@ -44,6 +47,7 @@
       },
       {
          "scene":1,
+         "scene_name":"Cutting in line",
          "area":"SP",
          "q_id":6,
          "question":"When someone cuts in line, they are being...",
@@ -58,6 +62,7 @@
       },
       {
          "scene":1,
+         "scene_name":"Cutting in line",
          "area":"CS",
          "q_id":2,
          "question":"Did Luke say the right thing to Olivia when she asked him to go to the back of the line?",
@@ -72,6 +77,7 @@
       },
       {
          "scene":1,
+         "scene_name":"Cutting in line",
          "area":"CS",
          "q_id":4,
          "question":"Telling someone to “go cry to your Mom” is being...",
@@ -88,6 +94,7 @@
    "6":[
       {
          "scene":6,
+         "scene_name":"Sharing Information",
          "area":"AU",
          "q_id":4,
          "question":"Why were Liam and Emma happy?",
@@ -102,6 +109,7 @@
       },
       {
          "scene":6,
+         "scene_name":"Sharing Information",
          "area":"AU",
          "q_id":6,
          "question":"Did Liam make Emma feel uncomfortable?",
@@ -116,6 +124,7 @@
       },
       {
          "scene":6,
+         "scene_name":"Sharing Information",
          "area":"SP",
          "q_id":1,
          "question":"Was Liam being a good sport while waiting in line?",
@@ -130,6 +139,7 @@
       },
       {
          "scene":6,
+         "scene_name":"Sharing Information",
          "area":"SP",
          "q_id":4,
          "question":"How was Emma being a good sport while waiting in line?",
@@ -144,6 +154,7 @@
       },
       {
          "scene":6,
+         "scene_name":"Sharing Information",
          "area":"CS",
          "q_id":1,
          "question":"Did Liam and Emma talk about something they have in common?",
@@ -158,11 +169,12 @@
       },
       {
          "scene":6,
+         "scene_name":"Sharing Information",
          "area":"CS",
          "q_id":5,
          "question":"How did Liam know that Emma liked talking about video games?",
          "opt1":"She told him",
-         "opt2":"She smiled and asked questions to keep the conversation going",
+         "opt2":"She smiled and kept the conversation going",
          "correct":"She smiled and asked questions to keep the conversation going",
          "opt3":"She didn't like talking about video games",
          "audio_ques":"",
@@ -174,6 +186,7 @@
    "8":[
       {
          "scene":8,
+         "scene_name":"Bossy Pants",
          "area":"AU",
          "q_id":2,
          "question":"Did Mason like being criticized by Chloe?",
@@ -188,6 +201,7 @@
       },
       {
          "scene":8,
+         "scene_name":"Bossy Pants",
          "area":"AU",
          "q_id":4,
          "question":"How did Chloe make Mason feel?",
@@ -202,6 +216,7 @@
       },
       {
          "scene":8,
+         "scene_name":"Bossy Pants",
          "area":"SP",
          "q_id":1,
          "question":"Was Mason being a poor sport?",
@@ -216,6 +231,7 @@
       },
       {
          "scene":8,
+         "scene_name":"Bossy Pants",
          "area":"SP",
          "q_id":3,
          "question":"How was Chloe being a poor sport?",
@@ -230,6 +246,7 @@
       },
       {
          "scene":8,
+         "scene_name":"Bossy Pants",
          "area":"CS",
          "q_id":2,
          "question":"How do you know that Mason did not want to play the game anymore?",
@@ -244,6 +261,7 @@
       },
       {
          "scene":8,
+         "scene_name":"Bossy Pants",
          "area":"CS",
          "q_id":3,
          "question":"Did Chloe tell Mason he was playing the game wrong?",
@@ -260,6 +278,7 @@
    "9":[
       {
          "scene":9,
+         "scene_name":"Asking for help",
          "area":"AU",
          "q_id":4,
          "question":"Was Jackson being bossy?",
@@ -274,6 +293,7 @@
       },
       {
          "scene":9,
+         "scene_name":"Asking for help",
          "area":"AU",
          "q_id":5,
          "question":"How did Liam feel before Jackson helped him?",
@@ -288,6 +308,7 @@
       },
       {
          "scene":9,
+         "scene_name":"Asking for help",
          "area":"SP",
          "q_id":1,
          "question":"Was Jackson being helpful?",
@@ -302,6 +323,7 @@
       },
       {
          "scene":9,
+         "scene_name":"Asking for help",
          "area":"SP",
          "q_id":5,
          "question":"How was Jackson being a good sport?",
@@ -316,6 +338,7 @@
       },
       {
          "scene":9,
+         "scene_name":"Asking for help",
          "area":"CS",
          "q_id":1,
          "question":"Did Jackson give Liam a compliment?",
@@ -330,6 +353,7 @@
       },
       {
          "scene":9,
+         "scene_name":"Asking for help",
          "area":"CS",
          "q_id":2,
          "question":"How did Jackson know that Liam needed help?",
@@ -346,6 +370,7 @@
    "11":[
       {
          "scene":11,
+         "scene_name":"Sore Winner",
          "area":"AU",
          "q_id":1,
          "question":"Did Luke feel proud about winning the game?",
@@ -360,13 +385,14 @@
       },
       {
          "scene":11,
+         "scene_name":"Sore Winner",
          "area":"AU",
          "q_id":4,
          "question":"How did Emma feel about Luke's behavior?",
-         "opt1":"??",
-         "opt2":"??",
-         "opt3":"???",
-         "correct":"???",
+         "opt1":"Proud",
+         "opt2":"Disappointed",
+         "correct":"Happy",
+         "opt3":"Happy",
          "audio_ques":"",
          "audio_opt1":"",
          "audio_opt2":"",
@@ -374,6 +400,7 @@
       },
       {
          "scene":11,
+         "scene_name":"Sore Winner",
          "area":"SP",
          "q_id":3,
          "question":"Was Luke being a sore winner?",
@@ -388,13 +415,14 @@
       },
       {
          "scene":11,
+         "scene_name":"Sore Winner",
          "area":"SP",
          "q_id":5,
          "question":"Why did Emma walk away?",
-         "opt1":"??",
-         "opt2":"???",
-         "correct":"???",
-         "opt3":"??",
+         "opt1":"She had to go to the bathroom",
+         "opt2":"She does not like video games",
+         "opt3":"She did not like that Luke was being a sore winner",
+         "correct":"She did not like that Luke was being a sore winner",
          "audio_ques":"",
          "audio_opt1":"",
          "audio_opt2":"",
@@ -402,6 +430,7 @@
       },
       {
          "scene":11,
+         "scene_name":"Sore Winner",
          "area":"CS",
          "q_id":1,
          "question":"Did Emma compliment Luke?",
@@ -416,13 +445,14 @@
       },
       {
          "scene":11,
+         "scene_name":"Sore Winner",
          "area":"CS",
          "q_id":4,
          "question":"What did Luke do that made Emma walk away?",
-         "opt1":"??",
-         "opt2":"???",
-         "correct":"???",
-         "opt3":"??",
+         "opt1":"\"Yeah! I won!\"",
+         "opt2":"\"Nobody can beat me at this game!\"",
+         "correct":"\"Nobody can beat me at this game!\"",
+         "opt3":"\"Go away Emma!\"",
          "audio_ques":"",
          "audio_opt1":"",
          "audio_opt2":"",
@@ -432,6 +462,7 @@
    "14":[
       {
          "scene":14,
+         "scene_name":"Joining a converastion",
          "area":"AU",
          "q_id":2,
          "question":"Was Olivia annoyed when Mason joined the conversation?",
@@ -446,13 +477,14 @@
       },
       {
          "scene":14,
+         "scene_name":"Joining a converastion",
          "area":"AU",
          "q_id":5,
          "question":"What did all three children have in common?",
-         "opt1":"??",
-         "opt2":"??",
-         "opt3":"???",
-         "correct":"???",
+         "opt1":"They all go to the same school",
+         "opt2":"They all like the same TV show",
+         "opt3":"They all like dogs",
+         "correct":"They all like dogs",
          "audio_ques":"",
          "audio_opt1":"",
          "audio_opt2":"",
@@ -460,6 +492,7 @@
       },
       {
          "scene":14,
+         "scene_name":"Joining a converastion",
          "area":"SP",
          "q_id":3,
          "question":"Did Jackson want Mason to join the conversation?",
@@ -474,13 +507,14 @@
       },
       {
          "scene":14,
+         "scene_name":"Joining a converastion",
          "area":"SP",
          "q_id":5,
          "question":"How were Jackson and Olivia being good sports?",
-         "opt1":"??",
-         "correct":"??",
-         "opt2":"??",
-         "opt3":"??",
+         "opt1":"By letting Mason join their conversation",
+         "correct":"By letting Mason join their conversation",
+         "opt2":"By talking about dogs",
+         "opt3":"By ignoring Mason",
          "audio_ques":"",
          "audio_opt1":"",
          "audio_opt2":"",
@@ -488,6 +522,7 @@
       },
       {
          "scene":14,
+         "scene_name":"Joining a converastion",
          "area":"CS",
          "q_id":1,
          "question":"Did Mason stay on topic when he joined the conversation?",
@@ -502,13 +537,14 @@
       },
       {
          "scene":14,
+         "scene_name":"Joining a converastion",
          "area":"CS",
          "q_id":4,
          "question":"Why did Mason enter the conversation talking about dogs?",
-         "opt1":"??",
-         "opt2":"???",
-         "correct":"???",
-         "opt3":"??",
+         "opt1":"Because he always talks about dogs",
+         "opt2":"Because Jackson and Olivia were talking about dogs",
+         "correct":"Because Jackson and Olivia were talking about dogs",
+         "opt3":"Because Olivia likes cats",
          "audio_ques":"",
          "audio_opt1":"",
          "audio_opt2":"",

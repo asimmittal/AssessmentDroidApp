@@ -23,9 +23,6 @@ public class VideoListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Log.d("---------> Back in list","");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
         thumbData = new ArrayList<ThumbData>();
@@ -45,6 +42,8 @@ public class VideoListActivity extends Activity {
                 else Constants.makeToastWithString(getApplicationContext(),"You're done with that one!!");
             }
         });
+
+        Log.d("---------> OnCreate in list view. Size of thumbData is",""+thumbData.size());
     }
 
     /**
@@ -53,8 +52,16 @@ public class VideoListActivity extends Activity {
      */
     public void onResume(){
         super.onResume();
-        Log.d("-------> ON RESUME IN LIST","");
-        loadThumbData();
+        Log.d("-------> ON RESUME IN LIST", "");
+
+        //update the progress stats around any of the thumb data items have changed
+        for(ThumbData td : thumbData){
+            ThumbData tdNew = Constants.getInstance().getThumbDataForKey(td.key);
+            td.isDone = tdNew.isDone;
+            td.progress = tdNew.progress;
+        }
+
+        //reattach the adapter to the list view
         ThumbDataAdapter tdAdapter = new ThumbDataAdapter(getApplicationContext(),thumbData);
         listView.setAdapter(tdAdapter);
     }
@@ -75,22 +82,22 @@ public class VideoListActivity extends Activity {
             keyList.add(key);
         }
 
-        //randomly grab keys, get thumbData for that key, and load it into the thumbData list
-        ArrayList<Integer> doneIndices = new ArrayList<Integer>();
+        //Randomly grab a key from the list and put its associated thumb data
+        //into the 'thumbData' array
+
+        ArrayList<Integer> done = new ArrayList<Integer>();
         int index;
         Random rnd = new Random();
 
-        for(int i = 0 ; i < keyList.size(); i++){
+        for(int i = 0; i < keyList.size(); i++){
             do{
                 index = rnd.nextInt(keyList.size());
-            }while(doneIndices.contains(index));
-            doneIndices.add(index);
-
-            String keyToGrab = keyList.get(index);
-            ThumbData td = Constants.getInstance().getThumbDataForKey(keyToGrab);
+            }while(done.contains(index));
+            done.add(index);
+            String keyToFind = keyList.get(index);
+            ThumbData td = Constants.getInstance().getThumbDataForKey(keyToFind);
             if(td != null) thumbData.add(td);
         }
-
     }
 
     /**

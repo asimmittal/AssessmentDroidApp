@@ -1,6 +1,7 @@
 package com.whi.emmersiv.myapplication;
 
 import android.app.*;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -59,6 +60,7 @@ public class SelectionActivity extends Activity{
 
                 String text = txtSubjectId.getText().toString().trim().toUpperCase();
                 if(text.length() > 0){
+                    DataLogger.getInstance(getApplicationContext()).log(new BaseLogEvent("Login_SubjectID", text));
                     Constants.getInstance().setCurrSubject(text);
                     Intent intent = new Intent(getApplicationContext(), VideoListActivity.class);
                     startActivity(intent);

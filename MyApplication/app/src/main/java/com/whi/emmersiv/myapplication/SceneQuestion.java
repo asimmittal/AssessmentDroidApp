@@ -7,5 +7,6 @@ public class SceneQuestion {
     public String opt1, opt2, opt3;
     public String correct;
     public String scene;
+    public String sceneName;
     public boolean isDone;
 };

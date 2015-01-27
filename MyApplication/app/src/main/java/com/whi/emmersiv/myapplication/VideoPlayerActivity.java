@@ -28,6 +28,7 @@ public class VideoPlayerActivity extends Activity {
 
     ArrayList<SceneQuestion> listOfQuestions;
     int curQuestionIndex = 0;
+    String curKey;
 
     VideoView videoPlayer;
     RelativeLayout videoContainer;
@@ -77,10 +78,16 @@ public class VideoPlayerActivity extends Activity {
         //Grab the layout containing the Q&A interface, hide it if the view isn't supposed to
         //show the Q&A just yet.
         containerQuestions = (LinearLayout) findViewById(R.id.containerQuestions);
-        containerQuestions.setVisibility((isInQuestionView) ? View.VISIBLE:View.INVISIBLE);
 
         //Grab the button that will allow video to be replayed
         btnVideo = (ImageButton) findViewById(R.id.btnVideo);
+
+        //grab the UI objects
+        txtQuestion = (TextView) findViewById(R.id.txtQuestion);
+        txtQuesTitle = (TextView) findViewById(R.id.txtTitleQuestion);
+        opt1 = (RadioButton) findViewById(R.id.opt1);
+        opt2 = (RadioButton) findViewById(R.id.opt2);
+        opt3 = (RadioButton) findViewById(R.id.opt3);
 
         //grab the submit button in the QnA UI
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
@@ -90,27 +97,11 @@ public class VideoPlayerActivity extends Activity {
 
         //Grab the pause icon
         pauseIcon = (View) findViewById(R.id.pauseIcon);
-        pauseIcon.setVisibility(View.INVISIBLE);
-
-        //The previous activity has sent the 'key' that uniquely identifies the scene
-        //using this key, we can get the name of the video resource.
-        Intent intent = getIntent();
-        String key = intent.getStringExtra("module_key");
-        String videoName = "raw/vid" + key;
-
-        //load the questions into local data structure
-        loadQuestions(key);
-
-        //Decode this name to get its resourceID
-        int resID = getResources().getIdentifier(videoName,null,getPackageName());
 
         //Grab the video player and configure it to play the video pointed to by "key"
         videoPlayer = (VideoView) findViewById(R.id.videoView);
         videoPlayer.setVisibility(View.VISIBLE);
 
-        //Using the resID decoded from the key, construct the URI of the video
-        String uriPath = "android.resource://" + getPackageName() + "/" + resID;
-        videoPlayer.setVideoURI(Uri.parse(uriPath));
 
         //-------------- Event Listeners defined here -----------------
 
@@ -226,11 +217,6 @@ public class VideoPlayerActivity extends Activity {
 
     private void setQuestionInUI(){
         SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
-        txtQuestion = (TextView) findViewById(R.id.txtQuestion);
-        txtQuesTitle = (TextView) findViewById(R.id.txtTitleQuestion);
-        opt1 = (RadioButton) findViewById(R.id.opt1);
-        opt2 = (RadioButton) findViewById(R.id.opt2);
-        opt3 = (RadioButton) findViewById(R.id.opt3);
 
         txtQuesTitle.setText("Question " + (curQuestionIndex+1) + "/" + listOfQuestions.size());
         txtQuestion.setText(currQuestion.question);
@@ -267,6 +253,7 @@ public class VideoPlayerActivity extends Activity {
     private void switchToVideoView(){
         containerQuestions.clearAnimation();
         containerQuestions.setVisibility(View.INVISIBLE);
+        pauseIcon.setVisibility(View.INVISIBLE);
         videoPlayer.start();
         isInQuestionView = false;
     }
@@ -290,6 +277,26 @@ public class VideoPlayerActivity extends Activity {
     public void onResume(){
         super.onResume();
         Log.d("----> ON RESUME", "");
+
+        //manage visibility
+        containerQuestions.setVisibility((isInQuestionView) ? View.VISIBLE:View.INVISIBLE);
+        pauseIcon.setVisibility(View.INVISIBLE);
+
+        //The previous activity has sent the 'key' that uniquely identifies the scene
+        //using this key, we can get the name of the video resource.
+        Intent intent = getIntent();
+        curKey = intent.getStringExtra("module_key");
+
+        //load the questions into local data structure
+        loadQuestions(curKey);
+
+        //Decode this name to get its resourceID
+        String videoName = "raw/vid" + curKey;
+        int resID = getResources().getIdentifier(videoName,null,getPackageName());
+
+        //Using the resID decoded from the key, construct the URI of the video
+        String uriPath = "android.resource://" + getPackageName() + "/" + resID;
+        videoPlayer.setVideoURI(Uri.parse(uriPath));
 
         if(!isInQuestionView) {
             if (videoPosition == 0) videoPlayer.start();
