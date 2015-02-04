@@ -23,6 +23,7 @@
         <activity
             android:name=".VideoPlayerActivity"
             android:label="@string/title_activity_video_and_questions"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             >
         </activity>
     </application>

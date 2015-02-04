@@ -32,31 +32,31 @@ public class Constants {
         return instance;
     }
 
-    /**
+    /********************************************************************************
      * set the current subject id
      * @param id
-     */
+     *******************************************************************************/
     public void setCurrSubject(String id){
         currSubject = id;
     }
 
-    /**
+    /********************************************************************************
      * return the current subject id
      * @return subjectID for this session
-     */
+     *******************************************************************************/
     public String getCurrSubject(){
         return currSubject;
     }
 
-    /**
+    /********************************************************************************
      * for a given key (scene id), return the thumb data that will be used
      * to display this in the video list activity
      * @param key
      * @return
-     */
+     *******************************************************************************/
     public ThumbData getThumbDataForKey(String key){
         if(data.containsKey(key)){
-            String thumb = "thumb" + key + ".jpg";
+            String thumb = "thumb" + key + ".png";
             ArrayList<SceneQuestion> list = data.get(key);
             String name = list.get(0).sceneName;
             int countDone = 0;
@@ -69,11 +69,11 @@ public class Constants {
         return null;
     }
 
-    /**
+    /********************************************************************************
      * Given a JSON string, deserialize it into objects representing
      * the various scenes and associated questions
      * @param json
-     */
+     *******************************************************************************/
     public void buildDataModelFromJson(String json){
         try {
             // turn the raw json string into a JSON Object
@@ -102,7 +102,10 @@ public class Constants {
                             quesObject.scene = key;
                             quesObject.isDone = false;
                             quesObject.sceneName = question.getString("scene_name");
-
+                            quesObject.audioQues = question.getString("audio_ques");
+                            quesObject.audioOpt1 = question.getString("audio_opt1");
+                            quesObject.audioOpt2 = question.getString("audio_opt2");
+                            quesObject.audioOpt3 = question.getString("audio_opt3");
                             data.get(key).add(quesObject);
                         }
                     }
@@ -111,11 +114,11 @@ public class Constants {
         }catch (Exception e){}
     }
 
-    /**
+    /********************************************************************************
      * Silly method to make toast notifications
      * @param cxt
      * @param text
-     */
+     *******************************************************************************/
     public static void makeToastWithString(Context cxt, String text){
         Toast.makeText(cxt, text, Toast.LENGTH_SHORT).show();
     }

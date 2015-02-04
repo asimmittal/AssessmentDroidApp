@@ -13,10 +13,22 @@ import java.util.ArrayList;
  */
 public class ThumbDataAdapter extends ArrayAdapter<ThumbData> {
 
+    /********************************************************************************
+     * Class constructor
+     * @param cxt
+     * @param thumbInfo
+     *******************************************************************************/
     public ThumbDataAdapter(Context cxt, ArrayList<ThumbData> thumbInfo){
         super(cxt,0,thumbInfo);
     }
 
+    /**
+     * The getView method binds the data to the view and returns it
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return sub view
+     */
     public View getView(int position, View convertView, ViewGroup parent){
         ThumbData item = getItem(position);
 

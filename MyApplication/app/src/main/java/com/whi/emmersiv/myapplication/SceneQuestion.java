@@ -9,4 +9,5 @@ public class SceneQuestion {
     public String scene;
     public String sceneName;
     public boolean isDone;
+    public String audioQues, audioOpt1, audioOpt2, audioOpt3;
 };

@@ -21,6 +21,7 @@ public class VideoListActivity extends Activity {
     ArrayList<ThumbData> thumbData;
     ListView listView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,21 +36,25 @@ public class VideoListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ThumbData itemSelected = thumbData.get(position);
                 if(!itemSelected.isDone) {
+                    DataLogger.getInstance(getApplicationContext()).log(new BaseLogEvent("ModuleSelectionEvent", itemSelected));
                     Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
                     intent.putExtra("module_key", itemSelected.key);
                     startActivity(intent);
                 }
-                else Constants.makeToastWithString(getApplicationContext(),"You're done with that one!!");
+                else {
+                    Constants.makeToastWithString(getApplicationContext(), "You're done with that one!!");
+                    DataLogger.getInstance(getApplicationContext()).log(new BaseLogEvent("RepeatCompletedModuleEvent", itemSelected));
+                }
             }
         });
 
         Log.d("---------> OnCreate in list view. Size of thumbData is",""+thumbData.size());
     }
 
-    /**
+    /********************************************************************************
      * Activity has resumed, recompute the latest values for the thumbData and bind
      * the new data to the list view
-     */
+     *******************************************************************************/
     public void onResume(){
         super.onResume();
         Log.d("-------> ON RESUME IN LIST", "");
@@ -66,10 +71,10 @@ public class VideoListActivity extends Activity {
         listView.setAdapter(tdAdapter);
     }
 
-    /**
+    /********************************************************************************
      * Turn the data in the Static HashMap into a list of thumbs i.e. thumbData for
      * easier data binding with the list view
-     */
+     *******************************************************************************/
     private void loadThumbData(){
         Set keys = Constants.getInstance().getData().keySet();
         thumbData.clear();
@@ -100,10 +105,10 @@ public class VideoListActivity extends Activity {
         }
     }
 
-    /**
+    /********************************************************************************
      * If the back button is pressed here, all the data will be cleaned up and the current
      * subject ID will be logged out
-     */
+     *******************************************************************************/
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle("Logout " + Constants.getInstance().getCurrSubject() + "?")

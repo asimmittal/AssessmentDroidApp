@@ -20,10 +20,10 @@ import android.content.Intent;
 import android.content.*;
 import android.content.DialogInterface.*;
 
-/**
+/********************************************************************************
     First Activity of the app. Asks User to enter SubjectID. The app data (JSON file)
     is also read and stored in a Singleton called "Constants" for use throughout the app
- */
+ *******************************************************************************/
 public class SelectionActivity extends Activity{
 
     EditText txtSubjectId;
@@ -69,10 +69,10 @@ public class SelectionActivity extends Activity{
         });
     }
 
-    /**
+    /********************************************************************************
      * Whenever the activity resumes, make sure we have the latest
      * JSON data from the appdata file
-     */
+     ********************************************************************************/
     public void onResume(){
         super.onResume();
 
@@ -82,10 +82,10 @@ public class SelectionActivity extends Activity{
         txtSubjectId.setText("");
     }
 
-    /**
+    /********************************************************************************
      * Read the JSON file named 'appdata' and return the string
      * @return string containing the json
-     */
+     *******************************************************************************/
     private String readJSON(){
         // read the JSON file titled 'appdata'
         InputStream is = getResources().openRawResource(R.raw.appdata);

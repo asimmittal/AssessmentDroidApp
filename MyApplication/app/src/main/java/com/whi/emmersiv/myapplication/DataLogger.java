@@ -3,7 +3,6 @@ package com.whi.emmersiv.myapplication;
 import android.content.*;
 import android.os.Environment;
 import android.util.Log;
-
 import com.google.gson.*;
 
 import java.io.File;
@@ -19,10 +18,14 @@ public class DataLogger {
     private Context cxt;
     private File file;
 
+    //protected constructor prevents direct instantiation
     protected DataLogger(){
-
     }
 
+    /********************************************************************************
+     * Parameterized constructor - protected to prevent direct instantiation
+     * @param cxt
+     *******************************************************************************/
     protected DataLogger(Context cxt){
         gson = new GsonBuilder().serializeNulls().create();
         long curTimeStamp = System.currentTimeMillis() / 1000L;
@@ -37,16 +40,25 @@ public class DataLogger {
             }
             else file = new File(publicDirectory, filename);
         }
-        else file = new File(publicDirectory, filename);
+        else file = new File(folder, filename);
 
         Log.d("xxx-----> LOGGER. File",file.getAbsolutePath());
     }
 
+    /********************************************************************************
+     * Return the instance of this singleton
+     * @param cxt
+     * @return
+     *******************************************************************************/
     public static DataLogger getInstance(Context cxt){
         if(instance == null) instance = new DataLogger(cxt);
         return instance;
     }
 
+    /********************************************************************************
+     *
+     * @param evt
+     *******************************************************************************/
     public void log(BaseLogEvent evt){
         evt.timestamp = System.currentTimeMillis()/1000L;
         String json = Constants.mode + ":" + gson.toJson(evt)+"\n";
