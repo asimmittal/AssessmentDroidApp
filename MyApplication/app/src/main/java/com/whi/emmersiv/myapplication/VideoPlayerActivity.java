@@ -29,7 +29,6 @@ import android.os.Handler;
 public class VideoPlayerActivity extends Activity {
 
     static int videoPosition;
-
     static boolean isInQuestionView;
     static boolean wasKeyInterrupt;
 
@@ -50,6 +49,8 @@ public class VideoPlayerActivity extends Activity {
     TextView txtQuesTitle, txtQuestion;
     RadioButton opt1, opt2, opt3;
     Button btnSubmit;
+
+    ArrayList<String> audioBugFilter;
 
     /********************************************************************************************
      * Couple of things going on here. onCreate is called when the activity is loaded. This means
@@ -73,13 +74,13 @@ public class VideoPlayerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_and_questions);
 
-        Log.d("---> Video Position:", ""+videoPosition);
-        Log.d("---> isQnA UI:", ""+isInQuestionView);
+        Log.d("---> " + Constants.getCurMethodName(3), "Starting VideoPlayerActivity");
+        Log.d("---> " + Constants.getCurMethodName(3), "Is QnA UI in view: "+isInQuestionView);
 
         wasKeyInterrupt = false;
 
-        //media player - audio
-        mp = new MediaPlayer();
+        /*List to handle the bug where "playAudioQuestion" was being called twice in succession*/
+        audioBugFilter = new ArrayList<String>();
 
         //animation
         slideInAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slidein);
@@ -136,7 +137,7 @@ public class VideoPlayerActivity extends Activity {
             btnAudio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    replayAudioOnlyForCurrQuestion();
+                    setQuestionInUI();
                 }
             });
 
@@ -147,6 +148,14 @@ public class VideoPlayerActivity extends Activity {
             videoPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
                     switchToQuestionsView();
+                }
+            });
+
+            videoPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    Log.d("----> ERROR", "Error in video Player");
+                    return false;
                 }
             });
 
@@ -185,6 +194,7 @@ public class VideoPlayerActivity extends Activity {
             containerQuestions.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     //do nothing - this is in place to beat the videoContainer.onClickListener
+
                 }
             });
 
@@ -215,11 +225,13 @@ public class VideoPlayerActivity extends Activity {
      *******************************************************************************/
     public void onResume(){
         super.onResume();
-        Log.d("----> ON RESUME", "");
+        Log.d("----> Resuming VideoPlayerActivity" , "isQuesInView - " + isInQuestionView);
 
         //manage visibility
-        containerQuestions.setVisibility((isInQuestionView) ? View.VISIBLE:View.INVISIBLE);
+        containerQuestions.setVisibility((isInQuestionView) ? View.VISIBLE : View.INVISIBLE);
         pauseIcon.setVisibility(View.INVISIBLE);
+
+        attachClickListenerToRadioGroup();
 
         //The previous activity has sent the 'key' that uniquely identifies the scene
         //using this key, we can get the name of the video resource.
@@ -244,6 +256,33 @@ public class VideoPlayerActivity extends Activity {
     }
 
     /********************************************************************************
+     * When the activity is being left (back pressed / device rotated / home etc.)
+     * If the videoPlayer was in the middle of playback, save its current position
+     * pause the playback
+     *******************************************************************************/
+    public void onStop(){
+        super.onStop();
+        Log.d("---->ON STOP INVOKED","");
+        if(!wasKeyInterrupt && videoPlayer.isPlaying()){
+            videoPosition = videoPlayer.getCurrentPosition();
+            videoPlayer.pause();
+        }
+
+        if(mp != null) mp.stop();
+
+        //if we're stopping the activity, we should hide the Q&A ui
+        isInQuestionView = false;
+        containerQuestions.clearAnimation();
+        containerQuestions.setVisibility(View.INVISIBLE);
+    }
+
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("---->ON DESTROY INVOKED","");
+        if(mp != null) mp.release();
+    }
+
+    /********************************************************************************
      * Handle submission of answer for the current question
      *******************************************************************************/
     private void handleSubmitForCurQuestion(){
@@ -258,7 +297,6 @@ public class VideoPlayerActivity extends Activity {
             }
         }
 
-
         if(curQuestionIndex < listOfQuestions.size())
             setQuestionInUI();
         else{
@@ -271,13 +309,15 @@ public class VideoPlayerActivity extends Activity {
      * Normalize the typefaces for the options back to default settings
      *******************************************************************************/
     private void normalizeTypefaces(){
+        txtQuestion.setTypeface(null, Typeface.NORMAL); txtQuestion.setTextColor(Color.BLACK);
         opt1.setTypeface(null, Typeface.NORMAL); opt1.setTextColor(Color.BLACK);
         opt2.setTypeface(null, Typeface.NORMAL); opt2.setTextColor(Color.BLACK);
         opt3.setTypeface(null, Typeface.NORMAL); opt3.setTextColor(Color.BLACK);
     }
 
-
-
+    /********************************************************************************
+     * set the enabled status of all radio buttons
+     *******************************************************************************/
     private void setOptionsEnabled(boolean stat){
         opt1.setEnabled(stat);
         opt2.setEnabled(stat);
@@ -285,161 +325,23 @@ public class VideoPlayerActivity extends Activity {
     }
 
     /********************************************************************************
-     * Similar to SetQuestionUI, but here only the audio is sequentially played
-     * with options being highlighted in different color
+     * set the visibility status of all radio buttons
      *******************************************************************************/
-    private void replayAudioOnlyForCurrQuestion(){
-        final SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
-        btnAudio.setEnabled(false);
-        normalizeTypefaces();
-        rdGroupOptions.clearCheck();
-        btnSubmit.setEnabled(false);
-        setOptionsEnabled(false);
-
-        /*
-        sequentially play the audio for the question, then load the first option, play
-        the audio for that, load the second, play the audio for that... so on. Also,
-        god forgive me for writing this code like this... Its ugly... but i dunno why
-        I like it.
-        */
-
-        playQuestionAudio(currQuestion.audioQues, new Callable<Void>() {
-
-            // 1- called after the question audio has finished playing
-            public Void call() throws Exception {
-                if (currQuestion.opt1.length() > 0) {
-                    opt1.setTextColor(Color.BLUE);
-                    opt1.setTypeface(null, Typeface.BOLD);
-
-                    playQuestionAudio(currQuestion.audioOpt1, new Callable<Void>() {
-
-                        //2 - called after the opt1 audio has finished playing
-                        public Void call() throws Exception {
-                            if (currQuestion.opt2.length() > 0) {
-                                opt1.setTextColor(Color.BLACK); opt1.setTypeface(null, Typeface.NORMAL);
-                                opt2.setTextColor(Color.BLUE); opt2.setTypeface(null, Typeface.BOLD);
-
-                                playQuestionAudio(currQuestion.audioOpt2, new Callable<Void>() {
-
-                                    //3 - called after the opt2 audio has finished playing
-                                    public Void call() throws Exception {
-                                        if (currQuestion.opt3.length() > 0) {
-                                            opt2.setTextColor(Color.BLACK);
-                                            opt2.setTypeface(null, Typeface.NORMAL);
-                                            opt3.setTextColor(Color.BLUE);
-                                            opt3.setTypeface(null, Typeface.BOLD);
-
-                                            playQuestionAudio(currQuestion.audioOpt3, new Callable<Void>() {
-
-                                                //4 - called after opt3 audio has finished playing
-                                                public Void call() throws Exception {
-                                                    opt3.setTextColor(Color.BLACK);
-                                                    opt3.setTypeface(null, Typeface.NORMAL);
-                                                    attachClickListenerToRadioGroup();
-                                                    btnAudio.setEnabled(true);
-                                                    setOptionsEnabled(true);
-                                                    return null;
-                                                }
-                                            });
-                                        } else {
-                                            opt2.setTextColor(Color.BLACK);
-                                            opt2.setTypeface(null, Typeface.NORMAL);
-                                            btnAudio.setEnabled(true);
-                                            setOptionsEnabled(true);
-                                            attachClickListenerToRadioGroup();
-                                        }
-                                        return null;
-                                    }
-                                });
-                            }
-                            return null;
-                        }
-                    });
-                }
-                return null;
-            }
-        });
-    }
-
-    /********************************************************************************
-     * This method causes the UI for the question to be displayed and the questions and options
-     * to be vocally read out one after the other
-     *******************************************************************************/
-    private void setQuestionInUI(){
-
-        final SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
-
-        txtQuesTitle.setText("Question " + (curQuestionIndex+1) + "/" + listOfQuestions.size());
-        txtQuestion.setText(currQuestion.question);
-
-        opt1.setText(currQuestion.opt1); opt1.setVisibility(View.INVISIBLE);
-        opt2.setText(currQuestion.opt2); opt2.setVisibility(View.INVISIBLE);
-        opt3.setText(currQuestion.opt3); opt3.setVisibility(View.INVISIBLE);
-
-        normalizeTypefaces();
-        setOptionsEnabled(false);
-
-        rdGroupOptions.clearCheck();
-        detachClickListenersFromRadioGroup();
-        btnSubmit.setEnabled(false);
-        btnAudio.setEnabled(false);
-
-        /*
-        sequentially play the audio for the question, then load the first option, play
-        the audio for that, load the second, play the audio for that... so on. Also,
-        god forgive me for writing this code like this... Its ugly... but i dunno why
-        I like it.
-        */
-        playQuestionAudio(currQuestion.audioQues, new Callable<Void>() {
-
-            // 1- called after the question audio has finished playing
-            public Void call() throws Exception {
-                if (currQuestion.opt1.length() > 0) {
-                    opt1.setVisibility(View.VISIBLE);
-                    playQuestionAudio(currQuestion.audioOpt1, new Callable<Void>() {
-
-                        //2 - called after the opt1 audio has finished playing
-                        public Void call() throws Exception {
-                            if (currQuestion.opt2.length() > 0) {
-                                opt2.setVisibility(View.VISIBLE);
-                                playQuestionAudio(currQuestion.audioOpt2, new Callable<Void>() {
-
-                                    //3 - called after the opt2 audio has finished playing
-                                    public Void call() throws Exception {
-                                        if (currQuestion.opt3.length() > 0) {
-                                            opt3.setVisibility(View.VISIBLE);
-                                            playQuestionAudio(currQuestion.audioOpt3, new Callable<Void>() {
-
-                                                //4 - called after opt3 audio has finished playing
-                                                public Void call() throws Exception {
-                                                    attachClickListenerToRadioGroup();
-                                                    setOptionsEnabled(true);
-                                                    btnAudio.setEnabled(true);
-                                                    return null;
-                                                }
-                                            });
-                                        } else {
-                                            btnAudio.setEnabled(true);
-                                            attachClickListenerToRadioGroup();
-                                            setOptionsEnabled(true);
-                                        }
-                                        return null;
-                                    }
-                                });
-                            }
-                            return null;
-                        }
-                    });
-                }
-                return null;
-            }
-        });
+    private void setOptionsVisible(int stat){
+        opt1.setVisibility(stat);
+        opt2.setVisibility(stat);
+        opt3.setVisibility(stat);
     }
 
     /********************************************************************************
      * Attach event listener to the radio group in the  UI
      *******************************************************************************/
     private void attachClickListenerToRadioGroup(){
+
+        opt1.setEnabled(true);
+        opt2.setEnabled(true);
+        opt3.setEnabled(true);
+
         rdGroupOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(opt1.isChecked() || opt2.isChecked() || opt3.isChecked()) {
@@ -455,54 +357,132 @@ public class VideoPlayerActivity extends Activity {
      *******************************************************************************/
     private void detachClickListenersFromRadioGroup(){
         rdGroupOptions.setOnCheckedChangeListener(null);
+        opt1.setEnabled(false);
+        opt2.setEnabled(false);
+        opt3.setEnabled(false);
     }
+
+    /********************************************************************************
+     * state of the various UI components before vocal readout of the question
+    *******************************************************************************/
+    private void setupUIStateBeforeAudio(){
+        txtQuestion.setVisibility(View.INVISIBLE);
+        opt1.setVisibility(View.INVISIBLE);
+        opt2.setVisibility(View.INVISIBLE);
+        opt3.setVisibility(View.INVISIBLE);
+        btnSubmit.setEnabled(false);
+        btnAudio.setEnabled(false); btnAudio.setVisibility(View.INVISIBLE);
+        btnVideo.setEnabled(false); btnVideo.setVisibility(View.INVISIBLE);
+        detachClickListenersFromRadioGroup();
+    }
+
+    /********************************************************************************
+     * state of various UI components after vocal readout is complete
+     *******************************************************************************/
+    private void setupUIStateAfterAudio(){
+        btnAudio.setEnabled(true); btnAudio.setVisibility(View.VISIBLE);
+        btnVideo.setEnabled(true); btnVideo.setVisibility(View.VISIBLE);
+        attachClickListenerToRadioGroup();
+    }
+
+    /********************************************************************************
+     * This method causes the UI for the question to be displayed and the questions and options
+     * to be vocally read out one after the other
+     *******************************************************************************/
+
+    enum QnAState {SHOW_Q, SHOW_1, SHOW_2, SHOW_3, END};
+    QnAState state;
+
+    private void setQuestionInUI(){
+
+        Log.d("---> " + Constants.getCurMethodName(3), "Building QnA UI...");
+        final SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
+
+        txtQuesTitle.setText("Question " + (curQuestionIndex+1) + "/" + listOfQuestions.size());
+        txtQuestion.setText(currQuestion.question);
+        rdGroupOptions.clearCheck();
+
+        opt1.setText(currQuestion.opt1);
+        opt2.setText(currQuestion.opt2);
+        opt3.setText(currQuestion.opt3);
+
+
+        state = QnAState.SHOW_Q;
+
+        mp = new MediaPlayer();
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Log.d("--------------------x Completed Playback x----------------","curState: " + state);
+                mp.stop();
+                mp.reset();
+                normalizeTypefaces();
+
+                switch (state){
+                    case SHOW_1:
+                        if(currQuestion.opt1.length()>0) {
+                            opt1.setTextColor(Color.BLUE);
+                            opt1.setTypeface(null, Typeface.BOLD);
+                            opt1.setVisibility(View.VISIBLE);
+                            playAudio(currQuestion.audioOpt1, mp);
+                            state = QnAState.SHOW_2;
+                        }
+                        else setupUIStateAfterAudio();
+                        break;
+
+                    case SHOW_2:
+                        if(currQuestion.opt2.length() > 0) {
+                            opt2.setTextColor(Color.BLUE);
+                            opt2.setTypeface(null, Typeface.BOLD);
+                            opt2.setVisibility(View.VISIBLE);
+                            playAudio(currQuestion.audioOpt2, mp);
+                            state = QnAState.SHOW_3;
+                        }else setupUIStateAfterAudio();
+                        break;
+
+                    case SHOW_3:
+                        if(currQuestion.opt3.length() > 0){
+                            opt3.setTextColor(Color.BLUE);
+                            opt3.setTypeface(null, Typeface.BOLD);
+                            opt3.setVisibility(View.VISIBLE);
+                            playAudio(currQuestion.audioOpt3, mp);
+                            state = QnAState.END;
+                        }else setupUIStateAfterAudio();
+                        break;
+
+                    case END:
+                        setupUIStateAfterAudio();
+                        break;
+                }
+            }
+        });
+
+        setupUIStateBeforeAudio();
+        txtQuestion.setVisibility(View.VISIBLE);
+        txtQuestion.setTextColor(Color.BLUE); txtQuestion.setTypeface(null, Typeface.BOLD);
+        playAudio(currQuestion.audioQues, mp);
+        state = QnAState.SHOW_1;
+    }
+
+
 
     /********************************************************************************
      * Play the audio pointed to by 'path'. Invoke the 'callback' after the audio
      * is done playing completely
      * @param path - string name of the audio resource
-     * @param callback - callable to be invoked after
      *******************************************************************************/
-    private void playQuestionAudio(String path, final Callable<Void> callback){
-
-        //if audio is already playing, don't create another one
-        if(mp.isPlaying()) return;
-
-        //no audio currently play
-        mp = new MediaPlayer();
+    private void playAudio(String path, MediaPlayer mPlay){
 
         try {
                 String audQues = "raw/" + path;
                 int resID = getResources().getIdentifier(audQues, null, getPackageName());
                 String uriPath = "android.resource://" + getPackageName() + "/" + resID;
-
-                mp.setDataSource(getApplicationContext(), Uri.parse(uriPath));
-                mp.prepare();
-                mp.start();
-
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        try{
-                            mp.stop();
-                            mp.reset();
-
-                            if(callback != null) {
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable(){
-                                    public void run(){
-                                        try{ callback.call(); } catch (Exception e){}
-                                    }
-                                }, 1000);
-                            }
-
-                        }catch (Exception e){}
-
-                    }
-                });
+                mPlay.setDataSource(getApplicationContext(), Uri.parse(uriPath));
+                mPlay.prepare();
+                mPlay.start();
         }
         catch (Exception e) {
-
+            Log.d("OHHHHHHH NO0","exception");
         }
     }
 
@@ -529,13 +509,6 @@ public class VideoPlayerActivity extends Activity {
      * Transition to show the video
      *******************************************************************************/
     private void switchToVideoView(){
-
-        //switch made in the middle of vocalizing a question??? stop and reset the media player
-        if(mp.isPlaying()) {
-            mp.stop();
-            mp.reset();
-        }
-
         containerQuestions.clearAnimation();
         containerQuestions.setVisibility(View.INVISIBLE);
         pauseIcon.setVisibility(View.INVISIBLE);
@@ -554,21 +527,7 @@ public class VideoPlayerActivity extends Activity {
         isInQuestionView = true;
     }
 
-    /********************************************************************************
-     * When the activity is being left (back pressed / device rotated / home etc.)
-     * If the videoPlayer was in the middle of playback, save its current position
-     * pause the playback
-     *******************************************************************************/
-    public void onStop(){
-        super.onStop();
-        Log.d("---->ON STOP INVOKED","");
-        if(!wasKeyInterrupt && videoPlayer.isPlaying()){
-            videoPosition = videoPlayer.getCurrentPosition();
-            videoPlayer.pause();
-        }
 
-        mp.release();
-    }
 
     /********************************************************************************
      * Handle key presses (Back / Home) buttons
@@ -581,7 +540,7 @@ public class VideoPlayerActivity extends Activity {
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_HOME:
                 videoPlayer.stopPlayback();
-                if(mp.isPlaying())mp.stop();
+                if(mp != null) mp.stop();
                 isInQuestionView = false;
                 videoPosition = 0;
                 wasKeyInterrupt = true;

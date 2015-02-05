@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.*;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import android.content.Intent;
 import android.util.Log;
@@ -20,7 +23,10 @@ public class VideoListActivity extends Activity {
 
     ArrayList<ThumbData> thumbData;
     ListView listView;
+    RelativeLayout doneContainer;
+    Animation slideInAnim;
 
+    boolean areModulesComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,8 @@ public class VideoListActivity extends Activity {
         setContentView(R.layout.activity_video_list);
         thumbData = new ArrayList<ThumbData>();
         listView = (ListView)findViewById(R.id.listThumbData);
+        doneContainer = (RelativeLayout) findViewById(R.id.doneContainer);
+        slideInAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slidein);
 
         loadThumbData();
 
@@ -59,16 +67,37 @@ public class VideoListActivity extends Activity {
         super.onResume();
         Log.d("-------> ON RESUME IN LIST", "");
 
+        areModulesComplete = true;
+
         //update the progress stats around any of the thumb data items have changed
         for(ThumbData td : thumbData){
             ThumbData tdNew = Constants.getInstance().getThumbDataForKey(td.key);
             td.isDone = tdNew.isDone;
             td.progress = tdNew.progress;
+            if(!td.isDone) areModulesComplete = false;
         }
 
         //reattach the adapter to the list view
         ThumbDataAdapter tdAdapter = new ThumbDataAdapter(getApplicationContext(),thumbData);
         listView.setAdapter(tdAdapter);
+        if(areModulesComplete) showCompleteUI(); else doneContainer.setVisibility(View.INVISIBLE);
+    }
+
+    /********************************************************************************
+     * Shows the completion UI
+     *******************************************************************************/
+    private void showCompleteUI(){
+
+        //animate the "done" ui into view
+        doneContainer.setVisibility(View.VISIBLE);
+
+        //automatically end the activity after 3 seconds
+        Handler endActivityHandler = new Handler();
+        endActivityHandler.postDelayed(new Runnable(){
+            public void run(){
+                finish();
+            }
+        }, 5000);
     }
 
     /********************************************************************************
@@ -110,15 +139,21 @@ public class VideoListActivity extends Activity {
      * subject ID will be logged out
      *******************************************************************************/
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout " + Constants.getInstance().getCurrSubject() + "?")
-                .setMessage("Are you sure you want to logout?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        VideoListActivity.super.onBackPressed();
-                    }
-                }).create().show();
+        if(!areModulesComplete) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Logout " + Constants.getInstance().getCurrSubject() + "?")
+                    .setMessage("Are you sure you want to logout?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            VideoListActivity.super.onBackPressed();
+                        }
+                    }).create().show();
+        }
+        else{
+            finish();
+        }
     }
 }

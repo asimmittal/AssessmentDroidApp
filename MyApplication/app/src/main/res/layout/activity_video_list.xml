@@ -27,4 +27,36 @@
             android:padding="20dp" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffffffff"
+        android:id="@+id/doneContainer"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="350px"
+            android:layout_height="350px"
+            android:id="@+id/imgDoneIcon"
+            android:src="@raw/greencheck"
+            android:layout_centerInParent="true"
+            android:longClickable="false"
+            android:scaleType="fitXY"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Wooho! You&apos;re all done."
+            android:id="@+id/textView4"
+            android:textSize="42dp"
+            android:layout_alignBottom="@+id/imgDoneIcon"
+            android:layout_alignParentBottom="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-50dp"
+            android:typeface="normal" />
+    </RelativeLayout>
 </RelativeLayout>

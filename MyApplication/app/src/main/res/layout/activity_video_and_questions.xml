@@ -106,7 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:id="@+id/rdGrpOptions"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="50dp"
+            android:visibility="visible">
 
             <RadioButton
                 android:layout_width="fill_parent"
@@ -114,7 +115,8 @@
                 android:text="Yes"
                 android:id="@+id/opt1"
                 android:textSize="36dp"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:visibility="invisible" />
 
             <RadioButton
                 android:layout_width="fill_parent"
@@ -122,7 +124,8 @@
                 android:text="No"
                 android:id="@+id/opt2"
                 android:textSize="36dp"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:visibility="invisible" />
 
             <RadioButton
                 android:layout_width="fill_parent"
@@ -130,7 +133,8 @@
                 android:text="I don&apos;t know"
                 android:id="@+id/opt3"
                 android:textSize="36dp"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:visibility="invisible" />
         </RadioGroup>
 
         <RelativeLayout

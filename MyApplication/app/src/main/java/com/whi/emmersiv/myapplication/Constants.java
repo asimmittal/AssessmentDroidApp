@@ -122,4 +122,9 @@ public class Constants {
     public static void makeToastWithString(Context cxt, String text){
         Toast.makeText(cxt, text, Toast.LENGTH_SHORT).show();
     }
+
+
+    public static String getCurMethodName(final int depth){
+        return Thread.currentThread().getStackTrace()[depth].getMethodName();
+    }
 }
