@@ -2,6 +2,7 @@ package com.whi.emmersiv.myapplication;
 
 public class BaseLogEvent{
     public long timestamp;
+    public String userId;
     public String logMsg;
     public Object meta;
 

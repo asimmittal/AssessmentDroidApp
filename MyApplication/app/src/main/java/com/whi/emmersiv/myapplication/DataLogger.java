@@ -15,22 +15,18 @@ public class DataLogger {
 
     private static DataLogger instance = null;
     private Gson gson;
-    private Context cxt;
     private File file;
 
-    //protected constructor prevents direct instantiation
-    protected DataLogger(){
-    }
 
     /********************************************************************************
      * Parameterized constructor - protected to prevent direct instantiation
-     * @param cxt
+
      *******************************************************************************/
-    protected DataLogger(Context cxt){
+    protected DataLogger(){
         gson = new GsonBuilder().serializeNulls().create();
         long curTimeStamp = System.currentTimeMillis() / 1000L;
         String dirName = "Emmersiv Logs";
-        String filename = "log_" + curTimeStamp;
+        String filename = "assessment_droid_log_" + curTimeStamp +".log";
         File publicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File folder = new File(publicDirectory,dirName);
         if(!folder.exists()){
@@ -47,21 +43,22 @@ public class DataLogger {
 
     /********************************************************************************
      * Return the instance of this singleton
-     * @param cxt
      * @return
      *******************************************************************************/
-    public static DataLogger getInstance(Context cxt){
-        if(instance == null) instance = new DataLogger(cxt);
+    public static DataLogger getInstance(){
+        if(instance == null) instance = new DataLogger();
         return instance;
     }
 
+
     /********************************************************************************
-     *
+     * log the specified event
      * @param evt
      *******************************************************************************/
     public void log(BaseLogEvent evt){
         evt.timestamp = System.currentTimeMillis()/1000L;
-        String json = Constants.mode + ":" + gson.toJson(evt)+"\n";
+        evt.userId = Constants.getInstance().getCurrSubject();
+        String json = evt.timestamp + " " + gson.toJson(evt)+"\n";
         Log.d("xxxx----> LOGGER", json);
 
         try {
@@ -74,4 +71,20 @@ public class DataLogger {
         }
     }
 
+    /*Static tags for data logging*/
+    public static final String LoginEvent = "SubjectLoginEvent";                            //user logs in with a subject id (meta) - SelectionActivity
+    public static final String ModuleSelectedEvent = "ModuleSelectedEvent";                 //user selects a module (meta) - VideoListActivity
+    public static final String RepeatModuleSelectionEvent = "RepeatModuleSelectionEvent";   //user tries to repeatedly select a completed module (meta)
+    public static final String SelectionScreenLoadedEvent = "SelectionScreenLoadedEvent";   //module selection screen loaded
+    public static final String AllModulesCompletedEvent = "AllModulesCompletedEvent";       //user with id (meta) has finished answering questions for all modules
+    public static final String UserLogoutEvent = "UserLogoutEvent";                         //user with id (meta) logged out manually
+    public static final String AnswerSubmittedEvent = "AnswerSubmittedEvent";               //user with id (meta) has answered a question (both q and a are meta along with isCorrect)
+    public static final String RepeatAudioEvent = "RepeatAudioEvent";                       //user selected to repeat the audio for the question (meta) being displayed
+    public static final String VideoPlaybackCompleteEvent = "VideoPlaybackCompleteEvent";   //the video has finished playing for module with key
+    public static final String QnAScreenDestroyedEvent = "QnAScreenDestroyedEvent";         //the QnA activity : onDestroy() invoked
+    public static final String KeyInterruptEvent = "KeyInterruptEvent";                     //the QnA Activity was interrupted by user key press of home or back button (key code is meta)
+    public static final String QnAScreenLoadedEvent = "QnAScreenLoadedEvent";               //the QnA activity was loaded
+    public static final String QnAScreenStoppedEvent = "QnAScreenStoppedEvent";             //the QnA Activity was stopped (onStop() invoked)
+    public static final String QuestionLoadComplete = "QuestionLoadComplete";               //question loaded on the screen - question is meta
+    public static final String QuestionLoadStarted = "QuestionLoadStarted";                 //the question began showing up on screen - question is meta
 }

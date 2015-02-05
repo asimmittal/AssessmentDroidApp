@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.transition.Scene;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,7 +43,7 @@ public class VideoPlayerActivity extends Activity {
     RelativeLayout videoContainer;
     LinearLayout containerQuestions;
     Animation slideInAnim, slideOutAnim;
-    ImageButton btnVideo, btnAudio;
+    LinearLayout btnVideo, btnAudio;
     View pauseIcon;
     RadioGroup rdGroupOptions;
 
@@ -50,7 +51,6 @@ public class VideoPlayerActivity extends Activity {
     RadioButton opt1, opt2, opt3;
     Button btnSubmit;
 
-    ArrayList<String> audioBugFilter;
 
     /********************************************************************************************
      * Couple of things going on here. onCreate is called when the activity is loaded. This means
@@ -79,9 +79,6 @@ public class VideoPlayerActivity extends Activity {
 
         wasKeyInterrupt = false;
 
-        /*List to handle the bug where "playAudioQuestion" was being called twice in succession*/
-        audioBugFilter = new ArrayList<String>();
-
         //animation
         slideInAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slidein);
 
@@ -93,8 +90,8 @@ public class VideoPlayerActivity extends Activity {
         containerQuestions = (LinearLayout) findViewById(R.id.containerQuestions);
 
         //Grab the button that will allow video to be replayed
-        btnVideo = (ImageButton) findViewById(R.id.btnVideo);
-        btnAudio = (ImageButton) findViewById(R.id.btnAudio);
+        btnVideo = (LinearLayout) findViewById(R.id.btnVideo);
+        btnAudio = (LinearLayout) findViewById(R.id.btnAudio);
 
         //grab the UI objects
         txtQuestion = (TextView) findViewById(R.id.txtQuestion);
@@ -137,6 +134,8 @@ public class VideoPlayerActivity extends Activity {
             btnAudio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SceneQuestion curQuestion = listOfQuestions.get(curQuestionIndex);
+                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.RepeatAudioEvent,curQuestion));
                     setQuestionInUI();
                 }
             });
@@ -147,6 +146,8 @@ public class VideoPlayerActivity extends Activity {
              */
             videoPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
+                    String moduleName = listOfQuestions.get(curQuestionIndex).sceneName;
+                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.VideoPlaybackCompleteEvent,moduleName.toLowerCase()));
                     switchToQuestionsView();
                 }
             });
@@ -193,7 +194,7 @@ public class VideoPlayerActivity extends Activity {
              */
             containerQuestions.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    //do nothing - this is in place to beat the videoContainer.onClickListener
+                //do nothing - this is in place to beat the videoContainer.onClickListener
 
                 }
             });
@@ -207,14 +208,15 @@ public class VideoPlayerActivity extends Activity {
                 }
             });
 
-            //TODO: Debug only - remove from final build
+
+            /*
             videoContainer.setOnLongClickListener(new View.OnLongClickListener() {
                 public boolean onLongClick(View v) {
                     if (videoPlayer.isPlaying()) videoPlayer.pause();
                     switchToQuestionsView();
                     return true;
                 }
-            });
+            });*/
         }
         //endregion
     }
@@ -226,6 +228,7 @@ public class VideoPlayerActivity extends Activity {
     public void onResume(){
         super.onResume();
         Log.d("----> Resuming VideoPlayerActivity" , "isQuesInView - " + isInQuestionView);
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.QnAScreenLoadedEvent,"onResume()"));
 
         //manage visibility
         containerQuestions.setVisibility((isInQuestionView) ? View.VISIBLE : View.INVISIBLE);
@@ -263,6 +266,8 @@ public class VideoPlayerActivity extends Activity {
     public void onStop(){
         super.onStop();
         Log.d("---->ON STOP INVOKED","");
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.QnAScreenStoppedEvent,"onStop()"));
+
         if(!wasKeyInterrupt && videoPlayer.isPlaying()){
             videoPosition = videoPlayer.getCurrentPosition();
             videoPlayer.pause();
@@ -279,12 +284,21 @@ public class VideoPlayerActivity extends Activity {
     public void onDestroy(){
         super.onDestroy();
         Log.d("---->ON DESTROY INVOKED","");
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.QnAScreenDestroyedEvent,"onDestroy()"));
         if(mp != null) mp.release();
     }
 
     /********************************************************************************
      * Handle submission of answer for the current question
      *******************************************************************************/
+
+    class QnALogEvent{
+        public String userId;
+        public SceneQuestion question;
+        public String answer;
+        public boolean isCorrect;
+    };
+
     private void handleSubmitForCurQuestion(){
         SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
         currQuestion.isDone = true;
@@ -296,6 +310,15 @@ public class VideoPlayerActivity extends Activity {
                 break;
             }
         }
+
+        RadioButton checked = (RadioButton) findViewById(rdGroupOptions.getCheckedRadioButtonId());
+        QnALogEvent event = new QnALogEvent();
+        event.userId = Constants.getInstance().getCurrSubject();
+        event.question = currQuestion;
+        event.answer = checked.getText().toString();
+        event.isCorrect = (currQuestion.correct.compareToIgnoreCase(event.answer) == 0) ? true: false;
+
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.AnswerSubmittedEvent,event));
 
         if(curQuestionIndex < listOfQuestions.size())
             setQuestionInUI();
@@ -374,6 +397,9 @@ public class VideoPlayerActivity extends Activity {
         btnAudio.setEnabled(false); btnAudio.setVisibility(View.INVISIBLE);
         btnVideo.setEnabled(false); btnVideo.setVisibility(View.INVISIBLE);
         detachClickListenersFromRadioGroup();
+
+        final SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.QuestionLoadStarted,currQuestion));
     }
 
     /********************************************************************************
@@ -383,6 +409,9 @@ public class VideoPlayerActivity extends Activity {
         btnAudio.setEnabled(true); btnAudio.setVisibility(View.VISIBLE);
         btnVideo.setEnabled(true); btnVideo.setVisibility(View.VISIBLE);
         attachClickListenerToRadioGroup();
+
+        final SceneQuestion currQuestion = listOfQuestions.get(curQuestionIndex);
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.QuestionLoadComplete,currQuestion));
     }
 
     /********************************************************************************
@@ -539,6 +568,9 @@ public class VideoPlayerActivity extends Activity {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_HOME:
+
+                DataLogger.getInstance().log(new BaseLogEvent(DataLogger.KeyInterruptEvent, "key pressed: " + keyCode));
+
                 videoPlayer.stopPlayback();
                 if(mp != null) mp.stop();
                 isInQuestionView = false;

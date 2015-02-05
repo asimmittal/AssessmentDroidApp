@@ -60,7 +60,10 @@ public class SelectionActivity extends Activity{
 
                 String text = txtSubjectId.getText().toString().trim().toUpperCase();
                 if(text.length() > 0){
-                    DataLogger.getInstance(getApplicationContext()).log(new BaseLogEvent("Login_SubjectID", text));
+
+                    //Log: User logs in with subject id (given by text)
+                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.LoginEvent, text));
+
                     Constants.getInstance().setCurrSubject(text);
                     Intent intent = new Intent(getApplicationContext(), VideoListActivity.class);
                     startActivity(intent);

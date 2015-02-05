@@ -123,8 +123,13 @@ public class Constants {
         Toast.makeText(cxt, text, Toast.LENGTH_SHORT).show();
     }
 
-
+    /********************************************************************************
+     * Returns the name of the method at the specified depth in the stack
+     * @param depth
+     * @return name of method at the specified depth
+     ********************************************************************************/
     public static String getCurMethodName(final int depth){
         return Thread.currentThread().getStackTrace()[depth].getMethodName();
     }
+
 }

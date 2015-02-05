@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.*;
+import android.provider.ContactsContract;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -44,14 +45,19 @@ public class VideoListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ThumbData itemSelected = thumbData.get(position);
                 if(!itemSelected.isDone) {
-                    DataLogger.getInstance(getApplicationContext()).log(new BaseLogEvent("ModuleSelectionEvent", itemSelected));
+
+                    //log: User picks a module to watch
+                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.ModuleSelectedEvent, itemSelected));
+
                     Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
                     intent.putExtra("module_key", itemSelected.key);
                     startActivity(intent);
                 }
                 else {
                     Constants.makeToastWithString(getApplicationContext(), "You're done with that one!!");
-                    DataLogger.getInstance(getApplicationContext()).log(new BaseLogEvent("RepeatCompletedModuleEvent", itemSelected));
+
+                    //log: User is trying to select a complete module again (undesirable behavior)
+                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.RepeatModuleSelectionEvent, itemSelected));
                 }
             }
         });
@@ -67,6 +73,9 @@ public class VideoListActivity extends Activity {
         super.onResume();
         Log.d("-------> ON RESUME IN LIST", "");
 
+        //log: loading selection screen
+        DataLogger.getInstance().log(new BaseLogEvent(DataLogger.SelectionScreenLoadedEvent,"onResume()"));
+
         areModulesComplete = true;
 
         //update the progress stats around any of the thumb data items have changed
@@ -80,7 +89,13 @@ public class VideoListActivity extends Activity {
         //reattach the adapter to the list view
         ThumbDataAdapter tdAdapter = new ThumbDataAdapter(getApplicationContext(),thumbData);
         listView.setAdapter(tdAdapter);
-        if(areModulesComplete) showCompleteUI(); else doneContainer.setVisibility(View.INVISIBLE);
+        if(areModulesComplete){
+            showCompleteUI();
+
+            //log: user with ID has finished all the modules
+            DataLogger.getInstance().log(new BaseLogEvent(DataLogger.AllModulesCompletedEvent, Constants.getInstance().getCurrSubject()));
+        }
+        else doneContainer.setVisibility(View.INVISIBLE);
     }
 
     /********************************************************************************
@@ -139,7 +154,6 @@ public class VideoListActivity extends Activity {
      * subject ID will be logged out
      *******************************************************************************/
     public void onBackPressed() {
-
         if(!areModulesComplete) {
             new AlertDialog.Builder(this)
                     .setTitle("Logout " + Constants.getInstance().getCurrSubject() + "?")
@@ -149,6 +163,7 @@ public class VideoListActivity extends Activity {
 
                         public void onClick(DialogInterface arg0, int arg1) {
                             VideoListActivity.super.onBackPressed();
+                            DataLogger.getInstance().log(new BaseLogEvent(DataLogger.UserLogoutEvent,Constants.getInstance().getCurrSubject()));
                         }
                     }).create().show();
         }
