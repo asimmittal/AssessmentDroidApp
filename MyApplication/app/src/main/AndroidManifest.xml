@@ -24,6 +24,7 @@
             android:name=".VideoPlayerActivity"
             android:label="@string/title_activity_video_and_questions"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
             >
         </activity>
     </application>

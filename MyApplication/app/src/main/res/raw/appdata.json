@@ -6,6 +6,10 @@
          "area":"AU",
          "q_id":3,
          "question":"Did Olivia feel disappointed when Luke cut in line?",
+         "characters":[
+            "olivia",
+            " luke"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -21,6 +25,10 @@
          "area":"AU",
          "q_id":5,
          "question":"How did Olivia feel after Luke cut in line?",
+         "characters":[
+            "olivia",
+            " luke"
+         ],
          "opt1":"Happy",
          "opt2":"Disappointed",
          "correct":"Disappointed",
@@ -36,6 +44,10 @@
          "area":"SP",
          "q_id":2,
          "question":"Was Luke being a good sport?",
+         "characters":[
+            "olivia",
+            " luke"
+         ],
          "opt1":"Yes",
          "opt2":"No",
          "correct":"No",
@@ -51,6 +63,10 @@
          "area":"SP",
          "q_id":6,
          "question":"When someone cuts in line, they are being...",
+         "characters":[
+            "olivia",
+            " luke"
+         ],
          "opt1":"A good sport",
          "opt2":"A poor sport",
          "correct":"A poor sport",
@@ -66,6 +82,10 @@
          "area":"CS",
          "q_id":1,
          "question":"Did Luke say the right thing to Olivia when she asked him to go to the back of the line?",
+         "characters":[
+            "olivia",
+            " luke"
+         ],
          "opt1":"Yes",
          "opt2":"No",
          "correct":"No",
@@ -81,6 +101,10 @@
          "area":"CS",
          "q_id":4,
          "question":"Telling someone to “go cry to your Mom” is being...",
+         "characters":[
+            "olivia",
+            " luke"
+         ],
          "opt1":"Friendly",
          "opt2":"Mean",
          "correct":"Mean",
@@ -98,6 +122,10 @@
          "area":"AU",
          "q_id":1,
          "question":"Why were Liam and Emma happy?",
+         "characters":[
+            "liam",
+            " emma"
+         ],
          "opt1":"They had something in common and had a good conversation ",
          "correct":"They had something in common and had a good conversation ",
          "opt2":"They were talking",
@@ -113,6 +141,10 @@
          "area":"AU",
          "q_id":2,
          "question":"Did Liam make Emma feel uncomfortable?",
+         "characters":[
+            "liam",
+            " emma"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -128,6 +160,10 @@
          "area":"SP",
          "q_id":3,
          "question":"Was Liam being a good sport?",
+         "characters":[
+            "liam",
+            " emma"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -143,6 +179,10 @@
          "area":"SP",
          "q_id":4,
          "question":"How was Emma being a good sport?",
+         "characters":[
+            "liam",
+            " emma"
+         ],
          "opt1":"She talked about video games",
          "opt2":"She waited her turn and talked to a friend",
          "correct":"She waited her turn and talked to a friend",
@@ -158,6 +198,10 @@
          "area":"CS",
          "q_id":5,
          "question":"Did Liam and Emma talk about something they have in common?",
+         "characters":[
+            "liam",
+            " emma"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -173,6 +217,10 @@
          "area":"CS",
          "q_id":6,
          "question":"How did Liam know that Emma liked talking about video games?",
+         "characters":[
+            "liam",
+            " emma"
+         ],
          "opt1":"She told him",
          "opt2":"She smiled and asked questions to keep the conversation going",
          "correct":"She smiled and asked questions to keep the conversation going",
@@ -190,6 +238,10 @@
          "area":"AU",
          "q_id":1,
          "question":"Did Mason like being criticized by Chloe?",
+         "characters":[
+            "chloe",
+            " mason"
+         ],
          "opt1":"Yes",
          "opt2":"No",
          "correct":"No",
@@ -205,6 +257,10 @@
          "area":"AU",
          "q_id":2,
          "question":"How did Chloe make Mason feel?",
+         "characters":[
+            "chloe",
+            " mason"
+         ],
          "opt1":"Important",
          "opt2":"Embarrassed",
          "correct":"Embarrassed",
@@ -220,6 +276,10 @@
          "area":"SP",
          "q_id":3,
          "question":"Was Mason being a poor sport?",
+         "characters":[
+            "chloe",
+            " mason"
+         ],
          "opt1":"Yes",
          "opt2":"No",
          "correct":"No",
@@ -235,6 +295,10 @@
          "area":"SP",
          "q_id":4,
          "question":"How was Chloe being a poor sport?",
+         "characters":[
+            "chloe",
+            " mason"
+         ],
          "opt1":"She gave Mason a compliment",
          "opt2":"She watched Mason play a game",
          "opt3":"She was being bossy while Mason was trying to play",
@@ -250,6 +314,10 @@
          "area":"CS",
          "q_id":5,
          "question":"How do you know that Mason did not want to play the game anymore?",
+         "characters":[
+            "chloe",
+            " mason"
+         ],
          "opt1":"He said \"I give up\"",
          "correct":"He said \"I give up\"",
          "opt2":"He said \"I'm trying\"",
@@ -265,6 +333,10 @@
          "area":"CS",
          "q_id":6,
          "question":"Did Chloe tell Mason he was playing the game wrong?",
+         "characters":[
+            "chloe",
+            " mason"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -281,7 +353,11 @@
          "scene_name":"Asking for help",
          "area":"AU",
          "q_id":1,
-         "question":"Was Jackson being bossy?",
+         "question":"Was Mason being bossy?",
+         "characters":[
+            "mason",
+            " liam"
+         ],
          "opt1":"Yes",
          "opt2":"No",
          "correct":"No",
@@ -296,7 +372,11 @@
          "scene_name":"Asking for help",
          "area":"AU",
          "q_id":2,
-         "question":"How did Liam feel before Jackson helped him?",
+         "question":"How did Liam feel before Mason helped him?",
+         "characters":[
+            "mason",
+            " liam"
+         ],
          "opt1":"Frustrated",
          "correct":"Frustrated",
          "opt2":"Bored",
@@ -311,7 +391,11 @@
          "scene_name":"Asking for help",
          "area":"SP",
          "q_id":3,
-         "question":"Was Jackson being helpful?",
+         "question":"Was Mason being helpful?",
+         "characters":[
+            "mason",
+            " liam"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -326,7 +410,11 @@
          "scene_name":"Asking for help",
          "area":"SP",
          "q_id":4,
-         "question":"How was Jackson being a good sport?",
+         "question":"How was Mason being a good sport?",
+         "characters":[
+            "mason",
+            " liam"
+         ],
          "opt1":"By watching the game",
          "opt2":"By helping Liam when he asked for it",
          "correct":"By helping Liam when he asked for it",
@@ -341,7 +429,11 @@
          "scene_name":"Asking for help",
          "area":"CS",
          "q_id":5,
-         "question":"Did Jackson give Liam a compliment?",
+         "question":"Did Mason give Liam a compliment?",
+         "characters":[
+            "mason",
+            " liam"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -356,7 +448,11 @@
          "scene_name":"Asking for help",
          "area":"CS",
          "q_id":6,
-         "question":"How did Jackson know that Liam needed help?",
+         "question":"How did Mason know that Liam needed help?",
+         "characters":[
+            "mason",
+            " liam"
+         ],
          "opt1":"Liam said \"Can you help me?\"",
          "correct":"Liam said \"Can you help me?\"",
          "opt2":"Liam said \"I quit, this game is not fair!\"",
@@ -374,6 +470,10 @@
          "area":"AU",
          "q_id":1,
          "question":"Did Luke feel proud about winning the game?",
+         "characters":[
+            "luke",
+            " emma"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -389,6 +489,10 @@
          "area":"AU",
          "q_id":2,
          "question":"How did Emma feel about Luke's behavior?",
+         "characters":[
+            "luke",
+            " emma"
+         ],
          "opt1":"Proud",
          "opt2":"Disappointed",
          "correct":"Happy",
@@ -404,6 +508,10 @@
          "area":"SP",
          "q_id":3,
          "question":"Was Luke being a sore winner?",
+         "characters":[
+            "luke",
+            " emma"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -419,6 +527,10 @@
          "area":"SP",
          "q_id":4,
          "question":"Why did Emma walk away?",
+         "characters":[
+            "luke",
+            " emma"
+         ],
          "opt1":"She had to go to the bathroom",
          "opt2":"She does not like video games",
          "opt3":"She did not like that Luke was being a sore winner",
@@ -434,6 +546,10 @@
          "area":"CS",
          "q_id":5,
          "question":"Did Emma compliment Luke?",
+         "characters":[
+            "luke",
+            " emma"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -449,6 +565,10 @@
          "area":"CS",
          "q_id":6,
          "question":"What did Luke say that made Emma walk away?",
+         "characters":[
+            "luke",
+            " emma"
+         ],
          "opt1":"\"Yeah! I won!\"",
          "opt2":"\"Nobody can beat me at this game!\"",
          "correct":"\"Nobody can beat me at this game!\"",
@@ -462,10 +582,15 @@
    "14":[
       {
          "scene":14,
-         "scene_name":"Joining a converastion",
+         "scene_name":"Joining a conversation",
          "area":"AU",
          "q_id":1,
          "question":"Was Olivia annoyed when Mason joined the conversation?",
+         "characters":[
+            "olivia",
+            " luke",
+            " mason"
+         ],
          "opt1":"Yes",
          "opt2":"No",
          "correct":"No",
@@ -477,10 +602,15 @@
       },
       {
          "scene":14,
-         "scene_name":"Joining a converastion",
+         "scene_name":"Joining a conversation",
          "area":"AU",
          "q_id":2,
          "question":"What did all three children have in common?",
+         "characters":[
+            "olivia",
+            " luke",
+            " mason"
+         ],
          "opt1":"They all go to the same school",
          "opt2":"They all like the same TV show",
          "opt3":"They all like dogs",
@@ -492,10 +622,15 @@
       },
       {
          "scene":14,
-         "scene_name":"Joining a converastion",
+         "scene_name":"Joining a conversation",
          "area":"SP",
          "q_id":3,
-         "question":"Did Jackson want Mason to join the conversation?",
+         "question":"Did Luke want Mason to join the conversation?",
+         "characters":[
+            "olivia",
+            " luke",
+            " mason"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -507,10 +642,15 @@
       },
       {
          "scene":14,
-         "scene_name":"Joining a converastion",
+         "scene_name":"Joining a conversation",
          "area":"SP",
          "q_id":4,
-         "question":"How were Jackson and Olivia being good sports?",
+         "question":"How were Luke and Olivia being good sports?",
+         "characters":[
+            "olivia",
+            " luke",
+            " mason"
+         ],
          "opt1":"By letting Mason join their conversation",
          "correct":"By letting Mason join their conversation",
          "opt2":"By talking about dogs",
@@ -522,10 +662,15 @@
       },
       {
          "scene":14,
-         "scene_name":"Joining a converastion",
+         "scene_name":"Joining a conversation",
          "area":"CS",
          "q_id":5,
          "question":"Did Mason stay on topic when he joined the conversation?",
+         "characters":[
+            "olivia",
+            " luke",
+            " mason"
+         ],
          "opt1":"Yes",
          "correct":"Yes",
          "opt2":"No",
@@ -537,10 +682,15 @@
       },
       {
          "scene":14,
-         "scene_name":"Joining a converastion",
+         "scene_name":"Joining a conversation",
          "area":"CS",
          "q_id":6,
          "question":"Why did Mason enter the conversation talking about dogs?",
+         "characters":[
+            "olivia",
+            " luke",
+            " mason"
+         ],
          "opt1":"Because he always talks about dogs",
          "opt2":"Because Jackson and Olivia were talking about dogs",
          "correct":"Because Jackson and Olivia were talking about dogs",

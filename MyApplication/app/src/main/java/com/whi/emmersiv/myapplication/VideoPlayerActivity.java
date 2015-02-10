@@ -47,6 +47,10 @@ public class VideoPlayerActivity extends Activity {
     View pauseIcon;
     RadioGroup rdGroupOptions;
 
+    ImageView char1, char2, char3;
+    TextView txtChar1, txtChar2, txtChar3;
+    RelativeLayout layoutChar1, layoutChar2, layoutChar3;
+
     TextView txtQuesTitle, txtQuestion;
     RadioButton opt1, opt2, opt3;
     Button btnSubmit;
@@ -99,6 +103,19 @@ public class VideoPlayerActivity extends Activity {
         opt1 = (RadioButton) findViewById(R.id.opt1);
         opt2 = (RadioButton) findViewById(R.id.opt2);
         opt3 = (RadioButton) findViewById(R.id.opt3);
+
+        //grab the image views to show headshots of the actors
+        char1 = (ImageView) findViewById(R.id.imgChar1);
+        char2 = (ImageView) findViewById(R.id.imgChar2);
+        char3 = (ImageView) findViewById(R.id.imgChar3);
+
+        txtChar1 = (TextView) findViewById(R.id.txtChar1);
+        txtChar2 = (TextView) findViewById(R.id.txtChar2);
+        txtChar3 = (TextView) findViewById(R.id.txtChar3);
+
+        layoutChar1 = (RelativeLayout) findViewById(R.id.layoutChar1);
+        layoutChar2 = (RelativeLayout) findViewById(R.id.layoutChar2);
+        layoutChar3 = (RelativeLayout) findViewById(R.id.layoutChar3);
 
         //grab the submit button in the QnA UI
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
@@ -435,6 +452,23 @@ public class VideoPlayerActivity extends Activity {
         opt2.setText(currQuestion.opt2);
         opt3.setText(currQuestion.opt3);
 
+        layoutChar1.setVisibility(View.INVISIBLE);
+        layoutChar2.setVisibility(View.INVISIBLE);
+        layoutChar3.setVisibility(View.INVISIBLE);
+
+        ImageView[] pics = {char1, char2, char3};
+        TextView[] names = {txtChar1, txtChar2, txtChar3};
+        RelativeLayout[] layouts = {layoutChar1, layoutChar2, layoutChar3};
+
+        for(int k = 0; k < currQuestion.characters.length; k++){
+            String charName = currQuestion.characters[k].trim().toLowerCase();
+            if(charName.length() > 0){
+                int resID = getResources().getIdentifier("raw/"+charName,null,getPackageName());
+                pics[k].setImageResource(resID);
+                names[k].setText(charName.toUpperCase());
+                layouts[k].setVisibility(View.VISIBLE);
+            }
+        }
 
         state = QnAState.SHOW_Q;
 

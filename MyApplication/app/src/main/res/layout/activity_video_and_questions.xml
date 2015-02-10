@@ -133,66 +133,181 @@
             android:id="@+id/BlueSpacer"
             android:layout_weight="0"></LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="If you&apos;re seeing this text, please press the back button and retry this module"
-            android:id="@+id/txtQuestion"
-            android:textSize="42dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="0" />
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
 
-        <RadioGroup
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/QnAContainer">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="If you&apos;re seeing this text, please press the back button and retry this module"
+                    android:id="@+id/txtQuestion"
+                    android:textSize="42dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0"
+                    android:layout_marginRight="25dp" />
+
+                <RadioGroup
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:id="@+id/rdGrpOptions"
+                    android:layout_marginTop="50dp"
+                    android:visibility="visible">
+
+                    <RadioButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:id="@+id/opt1"
+                        android:textSize="36dp"
+                        android:layout_margin="10dp"
+                        android:visibility="visible" />
+
+                    <RadioButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:id="@+id/opt2"
+                        android:textSize="36dp"
+                        android:layout_margin="10dp"
+                        android:visibility="visible" />
+
+                    <RadioButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="I don&apos;t know"
+                        android:id="@+id/opt3"
+                        android:textSize="36dp"
+                        android:layout_margin="10dp"
+                        android:visibility="visible" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView"
+                android:layout_marginTop="0dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:id="@+id/ImagesContainer">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ffeaeaea"
+                        android:id="@+id/layoutChar1"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
+                            android:id="@+id/imgChar1"
+                            android:src="@drawable/ic_person"
+                            android:layout_weight="1"
+                            android:padding="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Name"
+                            android:id="@+id/txtChar1"
+                            android:textSize="24dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="#00161616"
+                            android:layout_below="@+id/imgChar1"
+                            android:padding="3dp"
+                            android:layout_marginTop="0dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ffeaeaea"
+                        android:id="@+id/layoutChar2"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
+                            android:id="@+id/imgChar2"
+                            android:src="@drawable/ic_person"
+                            android:layout_weight="1"
+                            android:padding="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Name"
+                            android:id="@+id/txtChar2"
+                            android:textSize="24dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="#00161616"
+                            android:layout_below="@+id/imgChar2"
+                            android:padding="3dp"
+                            android:layout_marginTop="0dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ffeaeaea"
+                        android:id="@+id/layoutChar3"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
+                            android:id="@+id/imgChar3"
+                            android:src="@drawable/ic_person"
+                            android:layout_weight="1"
+                            android:padding="5dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Name"
+                            android:id="@+id/txtChar3"
+                            android:textSize="24dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="#00161616"
+                            android:layout_below="@+id/imgChar3"
+                            android:padding="3dp"
+                            android:layout_marginTop="0dp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <Button
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:id="@+id/rdGrpOptions"
-            android:layout_marginTop="50dp"
-            android:visibility="visible">
-
-            <RadioButton
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Yes"
-                android:id="@+id/opt1"
-                android:textSize="36dp"
-                android:layout_margin="10dp"
-                android:visibility="invisible" />
-
-            <RadioButton
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="No"
-                android:id="@+id/opt2"
-                android:textSize="36dp"
-                android:layout_margin="10dp"
-                android:visibility="invisible" />
-
-            <RadioButton
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="I don&apos;t know"
-                android:id="@+id/opt3"
-                android:textSize="36dp"
-                android:layout_margin="10dp"
-                android:visibility="invisible" />
-        </RadioGroup>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="75dp"
-                android:text="Next >"
-                android:id="@+id/btnSubmit"
-                android:layout_alignParentRight="false"
-                android:textSize="24dp"
-                android:layout_alignParentBottom="true"
-                android:enabled="false" />
-        </RelativeLayout>
+            android:layout_height="75dp"
+            android:text="Next >"
+            android:id="@+id/btnSubmit"
+            android:layout_alignParentRight="false"
+            android:textSize="24dp"
+            android:layout_alignParentBottom="true"
+            android:enabled="false"
+            android:visibility="visible" />
 
     </LinearLayout>
 

@@ -99,6 +99,11 @@ public class Constants {
                             quesObject.opt2 = question.getString("opt2");
                             quesObject.opt3 = question.getString("opt3");
                             quesObject.correct = question.getString("correct");
+
+                            JSONArray chars = question.getJSONArray("characters");
+                            quesObject.characters = new String[chars.length()];
+                            for(int k = 0; k < chars.length(); k++) quesObject.characters[k] = (String)chars.get(k);
+
                             quesObject.scene = key;
                             quesObject.isDone = false;
                             quesObject.sceneName = question.getString("scene_name");

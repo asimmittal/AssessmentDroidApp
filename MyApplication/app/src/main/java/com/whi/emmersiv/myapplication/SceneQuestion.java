@@ -5,6 +5,7 @@ public class SceneQuestion {
     public String qID;
     public String question;
     public String opt1, opt2, opt3;
+    public String[] characters;
     public String correct;
     public String scene;
     public String sceneName;
