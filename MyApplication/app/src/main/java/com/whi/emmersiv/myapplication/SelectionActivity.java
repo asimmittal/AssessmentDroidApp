@@ -33,6 +33,8 @@ public class SelectionActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Constants.getInstance();
+
         //display the layout on the screen
         setContentView(R.layout.activity_selection);
 
@@ -57,14 +59,11 @@ public class SelectionActivity extends Activity{
         //handle button click - navigate to the next activity viz. "VideoListAcitivity"
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                String text = txtSubjectId.getText().toString().trim().toUpperCase();
+                String text = txtSubjectId.getText().toString().trim().toLowerCase();
                 if(text.length() > 0){
-
-                    //Log: User logs in with subject id (given by text)
-                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.LoginEvent, text));
-
                     Constants.getInstance().setCurrSubject(text);
+                    DataLogger.getInstance().createNewLog();
+                    DataLogger.getInstance().log(new BaseLogEvent(DataLogger.LoginEvent, text));
                     Intent intent = new Intent(getApplicationContext(), VideoListActivity.class);
                     startActivity(intent);
                 }

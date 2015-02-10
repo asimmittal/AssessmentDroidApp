@@ -17,16 +17,22 @@ public class DataLogger {
     private Gson gson;
     private File file;
 
+    protected DataLogger(){
+
+    }
 
     /********************************************************************************
      * Parameterized constructor - protected to prevent direct instantiation
 
      *******************************************************************************/
-    protected DataLogger(){
+    public void createNewLog(){
         gson = new GsonBuilder().serializeNulls().create();
         long curTimeStamp = System.currentTimeMillis() / 1000L;
         String dirName = "Emmersiv Logs";
-        String filename = "assessment_droid_log_" + curTimeStamp +".log";
+        String uname = Constants.getInstance().getCurrSubject();
+        String sessionid = Constants.getInstance().getCurrSessionId();
+        String filename = uname + "_" + curTimeStamp + "_assessment_" + sessionid +".log";
+
         File publicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File folder = new File(publicDirectory,dirName);
         if(!folder.exists()){
@@ -58,6 +64,7 @@ public class DataLogger {
     public void log(BaseLogEvent evt){
         evt.timestamp = System.currentTimeMillis()/1000L;
         evt.userId = Constants.getInstance().getCurrSubject();
+        evt.sessionId = Constants.getInstance().getCurrSessionId();
         String json = evt.timestamp + " " + gson.toJson(evt)+"\n";
         Log.d("xxxx----> LOGGER", json);
 

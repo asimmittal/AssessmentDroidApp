@@ -7,18 +7,21 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.UUID;
 
 
 public class Constants {
     private static Constants instance = null;
     private static HashMap<String, ArrayList<SceneQuestion>> data = new HashMap<String, ArrayList<SceneQuestion>>();
     private static String currSubject;
+    private static String sessionId;
 
     //TODO: change this to "APP" when deploying
     public static String mode = "DEBUG";
 
     protected Constants(){
-        //This is a singleton, so constructor is protected
+        UUID uuid = UUID.randomUUID();
+        sessionId = uuid.toString();
     }
 
     public HashMap<String, ArrayList<SceneQuestion>> getData(){
@@ -31,6 +34,8 @@ public class Constants {
         if(instance == null) instance = new Constants();
         return instance;
     }
+
+    public String getCurrSessionId(){return sessionId;}
 
     /********************************************************************************
      * set the current subject id
